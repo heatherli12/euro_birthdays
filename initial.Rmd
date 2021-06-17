@@ -25,9 +25,14 @@ modified_birthdays <- birthdays %>%
   group_by(month) %>% 
   summarize(total = n())
 ggplot(data = modified_birthdays,
+<<<<<<< HEAD
        mapping = aes(x = month, y = total))+
   geom_col()+
   coord_flip()
+=======
+       mapping = aes(x = month))+
+  geom_bar()
+>>>>>>> f8c7a66a7130627ff9953acfc007cf42e91648bd
 ```
 
 
