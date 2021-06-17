@@ -12,17 +12,22 @@ library(lubridate)
 ```
 
 ```{r loading_data, echo = FALSE}
-birthdays <- read_csv(file = "birthdates.csv",
+birthdays <- read_csv(file = "raw_dates.csv",
                       col_types = cols(value = col_character()))
 
 ```
 
 ```{r cleaning_data, echo = FALSE}
 modified_birthdays <- birthdays %>% 
-  mutate(birth_dates = str_sub(value, 2, 11)) %>% 
-  mutate(birth_dates = make_date(birth_dates))
-print(modified_birthdays)
+  mutate(date = parse_date(str_sub(value, 2, 11))) %>% 
+  mutate(raw_month = months(date)) %>% 
+  mutate(month = parse_factor(raw_month, levels = month.name)) %>% 
+  group_by(month) %>% 
+  summarize(total = n())
+ggplot(data = modified_birthdays,
+       mapping = aes(x = month, y = total))+
+  geom_col()+
+  coord_flip()
 ```
-
 
 
